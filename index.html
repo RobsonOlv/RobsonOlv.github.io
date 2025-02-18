@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robson's Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #0B0B2B, #1B1B3A);
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .comet-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 
+                0 0 20px #fff,
+                0 0 40px #fff,
+                0 0 60px #fff,
+                0 0 80px #4af7ff;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding-top: 20vh;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        p {
+            font-size: 1.5em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .explore-btn {
+            margin-top: 40px;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .explore-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="content">
+        <h1>Explore the Universe</h1>
+        <p>Embark on a cosmic journey through the vast expanse of space. Discover the wonders that lie beyond our world.</p>
+        <button class="explore-btn">Begin Journey</button>
+    </div>
+
+    <script>
+        // Create stars
+        function createStars() {
+            const stars = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.backgroundColor = '#fff';
+                star.style.borderRadius = '50%';
+                star.style.animation = `twinkle ${Math.random() * 3 + 1}s infinite`;
+                stars.appendChild(star);
+            }
+        }
+
+        // Comet trail effect
+        function createCometTrail(e) {
+            const trail = document.createElement('div');
+            trail.className = 'comet-trail';
+            trail.style.left = e.clientX + 'px';
+            trail.style.top = e.clientY + 'px';
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                trail.style.transition = 'all 0.5s ease-out';
+                trail.style.opacity = '0';
+                trail.style.transform = 'scale(0.5)';
+                setTimeout(() => trail.remove(), 500);
+            }, 10);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', createStars);
+        document.addEventListener('mousemove', createCometTrail);
+
+        // Add star twinkling animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes twinkle {
+                0% { opacity: 0.3; }
+                50% { opacity: 1; }
+                100% { opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
